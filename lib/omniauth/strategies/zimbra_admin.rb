@@ -30,13 +30,9 @@ module OmniAuth
 
       uid { request[:email] }
       
-      info do {
-        name: request[:email],
-      }
+      info do { name: request[:email] } end
       
-      credentials do {
-        token: @zm_auth_token
-      }
+      credentials do { :token => @zm_auth_token } end
       
       protected
 

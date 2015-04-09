@@ -1,5 +1,5 @@
 require 'omniauth'
-require "omniauth-zimbra"
+require "omniauth-zimbraadmin"
 
 require 'minitest/autorun'
 require 'minitest/reporters' # requires the gem
