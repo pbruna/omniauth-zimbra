@@ -12,7 +12,7 @@ module OmniAuth
       option :name, "zimbraadmin"
       option :fields, [:name, :email]
       option :debug, false
-      option :new_session_path, "/session/new"
+      option :new_session_path, "/sessions/new"
       option :uid_field, :email
 
       def request_phase
@@ -44,11 +44,11 @@ module OmniAuth
         end
 
         def username
-          request['email']
+          request[:sessions]['email']
         end
 
         def password
-          request['password']
+          request[:sessions]['password']
         end
 
         def authentication_response
