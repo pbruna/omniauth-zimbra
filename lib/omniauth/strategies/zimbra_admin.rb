@@ -12,14 +12,11 @@ module OmniAuth
       option :name, "zimbraadmin"
       option :fields, [:name, :email]
       option :debug, false
+      option :new_session_path, "/session/new"
       option :uid_field, :email
 
       def request_phase
-        OmniAuth::Form.build(:title => options.title, :url => callback_path) do
-          text_field 'Email', 'email'
-          password_field 'Password', 'password'
-          button "Sign In"
-        end.to_response
+        redirect options[:new_session_path]
       end
       
       def callback_phase
