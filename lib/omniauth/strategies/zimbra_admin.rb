@@ -25,9 +25,9 @@ module OmniAuth
         super
       end
 
-      uid { request[:email] }
+      uid { username }
       
-      info do { name: request[:email] } end
+      info do { name: username } end
       
       credentials do { :token => @zm_auth_token } end
       
