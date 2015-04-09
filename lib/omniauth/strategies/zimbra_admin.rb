@@ -9,8 +9,6 @@ module OmniAuth
       args [:endpoint]
 
       option :title,   "Zimbra Admin Auth"
-      option :fields, [:email]
-      option :uid_field, :email
       option :debug, false
 
       def request_phase
@@ -26,9 +24,9 @@ module OmniAuth
         super
       end
       
-      uid do
-        request['email']
-      end
+      uid {
+        "pico"
+      }
 
       protected
 
