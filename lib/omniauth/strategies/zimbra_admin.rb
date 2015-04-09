@@ -9,6 +9,7 @@ module OmniAuth
       args [:endpoint]
 
       option :title,   "Zimbra Admin Auth"
+      option :name, "zimbraadmin"
       option :debug, false
 
       def request_phase
@@ -20,19 +21,14 @@ module OmniAuth
       end
       
       def callback_phase
-        return fail!(:invalid_credentials) if !authentication_response
-        @user_info = {email: "Chupalo", info: request}
+        return fail!(:invalid_credentials) unless authentication_response
         super
       end
       
-      uid {
-        @user_info[:email]
-      }
+      uid do
+        "juan".inspect
+      end
       
-      info {
-        @user_info[:info]
-      }
-
       protected
 
         # by default we use static uri. If dynamic uri is required, override
