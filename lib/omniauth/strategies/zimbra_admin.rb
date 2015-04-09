@@ -10,7 +10,9 @@ module OmniAuth
 
       option :title,   "Zimbra Admin Auth"
       option :name, "zimbraadmin"
+      option :fields, [:name, :email]
       option :debug, false
+      option :uid_field, :email
 
       def request_phase
         OmniAuth::Form.build(:title => options.title, :url => callback_path) do
@@ -20,50 +22,59 @@ module OmniAuth
         end.to_response
       end
       
-      def callback_phase
-        return fail!(:invalid_credentials) unless authentication_response
-        super
-      end
-      
       uid do
-        "juan".inspect
+        request.params[options.uid_field.to_s]
       end
+
+     info do
+         options.fields.inject({}) do |hash, field|
+           hash[field] = request.params[field.to_s]
+           hash
+         end
+       end
       
-      protected
-
-        # by default we use static uri. If dynamic uri is required, override
-        # this method.
-        def endpoint
-          options.endpoint
-        end
-        
-        def debug
-          options[:debug]
-        end
-
-        def username
-          request['email']
-        end
-
-        def password
-          request['password']
-        end
-
-        def authentication_response
-          unless @authentication_response
-            return unless username && password
-            
-            Zimbra.debug = debug
-            Zimbra.admin_api_url = endpoint
-            begin
-              @authentication_response = Zimbra.reset_login(username, password)
-            rescue Exception => e
-              @authentication_response = false
-            end
-          end
-
-          @authentication_response
-        end
+      # def callback_phase
+      #   return fail!(:invalid_credentials) unless authentication_response
+      #   super
+      # end
+      #
+      # uid { }
+      
+      # protected
+  #
+  #       # by default we use static uri. If dynamic uri is required, override
+  #       # this method.
+  #       def endpoint
+  #         options.endpoint
+  #       end
+  #
+  #       def debug
+  #         options[:debug]
+  #       end
+  #
+  #       def username
+  #         request['email']
+  #       end
+  #
+  #       def password
+  #         request['password']
+  #       end
+  #
+  #       def authentication_response
+  #         unless @authentication_response
+  #           return unless username && password
+  #
+  #           Zimbra.debug = debug
+  #           Zimbra.admin_api_url = endpoint
+  #           begin
+  #             @authentication_response = Zimbra.reset_login(username, password)
+  #           rescue Exception => e
+  #             @authentication_response = false
+  #           end
+  #         end
+  #
+  #         @authentication_response
+  #       end
 
     end
   end
