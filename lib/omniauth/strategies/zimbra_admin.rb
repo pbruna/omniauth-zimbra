@@ -21,7 +21,6 @@ module OmniAuth
       
       def callback_phase
         return fail!(:invalid_credentials) unless authentication_response
-        @zm_auth_token = authentication_response
         super
       end
 
@@ -29,7 +28,7 @@ module OmniAuth
       
       info do { name: username } end
       
-      credentials do { :token => @zm_auth_token } end
+      extra do { :token => authentication_response } end
       
       protected
 
