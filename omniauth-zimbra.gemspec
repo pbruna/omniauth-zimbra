@@ -5,7 +5,7 @@ require File.expand_path('../lib/omniauth-zimbra/version', __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "omniauth-zimbra"
-  spec.version       = Omniauth::Zimbra::VERSION
+  spec.version       = Omniauth::ZimbraAdmin::VERSION
   spec.authors       = ["Patricio Bruna"]
   spec.email         = ["pbruna@gmail.com"]
   spec.summary       = "Zimbra authentication strategy for OmniAuth"

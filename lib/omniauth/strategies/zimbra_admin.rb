@@ -2,7 +2,8 @@ require 'omniauth'
 
 module OmniAuth
   module Strategies
-    class Zimbra
+    class ZimbraAdmin
+
       require 'zimbra'
       include OmniAuth::Strategy
 
