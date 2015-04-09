@@ -1,5 +1,5 @@
 require 'omniauth'
-require 'net/zimbra'
+require 'zimbra'
 
 module OmniAuth
   module Strategies
