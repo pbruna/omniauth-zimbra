@@ -1,10 +1,9 @@
 require 'omniauth'
+require 'zimbra'
 
 module OmniAuth
   module Strategies
     class ZimbraAdmin
-
-      require 'zimbra'
       include OmniAuth::Strategy
 
       args [:endpoint]
@@ -50,6 +49,7 @@ module OmniAuth
           unless @authentication_response
             return unless username && password
             
+            Zimbra.debug = debug
             Zimbra.admin_api_url = endpoint
             begin
               @authentication_response = Zimbra.reset_login(username, password)
@@ -64,3 +64,5 @@ module OmniAuth
     end
   end
 end
+
+OmniAuth.config.add_camelization 'zimbraadmin', 'ZimbraAdmin'

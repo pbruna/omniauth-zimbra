@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require File.expand_path('../lib/omniauth-zimbra/version', __FILE__)
+require File.expand_path('../lib/omniauth-zimbraadmin/version', __FILE__)
 
 Gem::Specification.new do |spec|
-  spec.name          = "omniauth-zimbra"
+  spec.name          = "omniauth-zimbraadmin"
   spec.version       = Omniauth::ZimbraAdmin::VERSION
   spec.authors       = ["Patricio Bruna"]
   spec.email         = ["pbruna@gmail.com"]
