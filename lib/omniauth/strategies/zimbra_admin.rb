@@ -28,7 +28,7 @@ module OmniAuth
       
       info do { name: username } end
       
-      extra do { :token => authentication_response } end
+      credentials do { :token => authentication_response } end
       
       protected
 
