@@ -1,14 +1,15 @@
 require 'omniauth'
-require 'zimbra'
 
 module OmniAuth
   module Strategies
     class Zimbra
+      require 'zimbra'
       include OmniAuth::Strategy
 
       args [:endpoint]
 
       option :title,   "Zimbra Admin Auth"
+      option :debug, false
 
       def request_phase
         OmniAuth::Form.build(:title => options.title, :url => callback_path) do
@@ -30,6 +31,10 @@ module OmniAuth
         # this method.
         def endpoint
           options.endpoint
+        end
+        
+        def debug
+          options[:debug]
         end
 
         def username
