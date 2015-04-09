@@ -21,7 +21,6 @@ module OmniAuth
 
       def callback_phase
         return fail!(:invalid_credentials) if !authentication_response
-        return fail!(:invalid_credentials) if authentication_response.code.to_i >= 400
         super
       end
 
