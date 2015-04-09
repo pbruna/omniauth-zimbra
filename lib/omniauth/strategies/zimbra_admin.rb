@@ -20,7 +20,11 @@ module OmniAuth
           button "Sign In"
         end.to_response
       end
-
+      
+      uid do
+        request.params[options.uid_field.to_s]
+      end
+      
       def callback_phase
         return fail!(:invalid_credentials) if !authentication_response
         super
