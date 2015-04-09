@@ -21,11 +21,16 @@ module OmniAuth
       
       def callback_phase
         return fail!(:invalid_credentials) if !authentication_response
+        @user_info = {email: "Chupalo", info: request}
         super
       end
       
       uid {
-        "pico"
+        @user_info[:email]
+      }
+      
+      info {
+        @user_info[:info]
       }
 
       protected
