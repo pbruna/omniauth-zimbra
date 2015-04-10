@@ -11,6 +11,7 @@ module OmniAuth
       option :title,   "Zimbra Admin Auth"
       option :name, "zimbraadmin"
       option :fields, [:name, :email]
+      option :zimbra_attributes, %w( displayName )
       option :debug, false
       option :new_session_path, "/sessions/new"
       option :uid_field, :email
@@ -26,9 +27,18 @@ module OmniAuth
 
       uid { username }
       
-      info do { name: username } end
+      info do { 
+        name: @authentication_response[:account_attrs]["displayName"]
+        } 
+      end
       
-      credentials do { :token => authentication_response } end
+      credentials do 
+        { @authentication_response[:token] => authentication_response } 
+      end
+      
+      extra do 
+        @authentication_response[:account_attrs]
+      end
       
       protected
 
@@ -53,17 +63,23 @@ module OmniAuth
         def authentication_response
           unless @authentication_response
             return unless username && password
-
-            Zimbra.debug = debug
-            Zimbra.admin_api_url = endpoint
-            begin
-              @authentication_response = Zimbra.reset_login(username, password)
-            rescue Exception => e
-              @authentication_response = false
-            end
+            @authentication_response = login_and_data(username, password)
+            return unless @authentication_response
           end
-
           @authentication_response
+        end
+        
+        def login(username, password)
+          Zimbra.debug = debug
+          Zimbra.admin_api_url = endpoint
+          begin
+            token = Zimbra.reset_login(username, password)
+            account = Zimbra::Account.find_by_name username
+            account_attrs = account.get_attributes options[:zimbra_attributes]
+            {token: token, account: account, account_attrs: account_attrs}
+          rescue Exception => e
+            false 
+          end
         end
 
     end
