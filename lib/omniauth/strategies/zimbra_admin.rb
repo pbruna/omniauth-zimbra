@@ -69,7 +69,7 @@ module OmniAuth
           @authentication_response
         end
         
-        def login(username, password)
+        def login_and_data(username, password)
           Zimbra.debug = debug
           Zimbra.admin_api_url = endpoint
           begin
