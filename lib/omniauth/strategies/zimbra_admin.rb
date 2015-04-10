@@ -33,7 +33,7 @@ module OmniAuth
       end
       
       credentials do 
-        { @authentication_response[:token] => authentication_response } 
+        {  token => @authentication_response[:token] } 
       end
       
       extra do 
