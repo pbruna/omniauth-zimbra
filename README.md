@@ -20,7 +20,7 @@ And then execute:
 
     $ bundle
 
-**Note:** You will need my version of the [zimbra](https://github.com/pbruna/ruby-zimbra) for the moment.
+**Note:** You will need my version of the [zimbra gem](https://github.com/pbruna/ruby-zimbra) for the moment.
 
 ## Usage
 
