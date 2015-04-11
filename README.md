@@ -1,6 +1,6 @@
 # Omniauth::ZimbraAdmin
 
-OmniAuth stratgies for authenticate against a Zimbra Server Webmadmin Console as a `Global` or `Domain` Admin.
+OmniAuth stratgy for authenticate against a [Zimbra Server](http://www.zimbra.com) Webmadmin Console as a `Global` or `Domain` Admin, using the [SOAP Api](https://wiki.zimbra.com/wiki/SOAP_API_Reference_Material_Beginning_with_ZCS_8).
 You need to have access to the Admin Port, `7071` or `9071` if using Proxy, for this to work.
 
 By the default this Gem returns the following information after a succesfully login:
