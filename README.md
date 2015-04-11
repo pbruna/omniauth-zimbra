@@ -1,11 +1,12 @@
 # Omniauth::ZimbraAdmin
 
-OmniAuth stratgy for authenticate against a [Zimbra Server](http://www.zimbra.com) a `Global admin` or `Domain admin` Admin using the [SOAP Api](https://wiki.zimbra.com/wiki/SOAP_API_Reference_Material_Beginning_with_ZCS_8).
-You need to have access to the Admin Port, `7071` or `9071` if using Proxy, for this to work.
+OmniAuth strategy for authenticate against a [Zimbra Server](http://www.zimbra.com) as a `Global` or `Domain` admin using the [SOAP Api](https://wiki.zimbra.com/wiki/SOAP_API_Reference_Material_Beginning_with_ZCS_8).
+
+You'll need access to the Zimbra Admin Port, `7071` or `9071` if using Proxy, for this to work.
 
 By the default this Gem returns the following information after a succesfully login:
 
-* Email address of the logged user as the `uid`
+* Email address of the logged user as the `request.env["omniauth.auth"].uid`
 * `request.env["omniauth.auth"].credentials.token` with the `ZM_AUTH_TOKEN` given by Zimbra.
 
 ## Installation
@@ -47,7 +48,7 @@ OmniAuth.config.logger = Rails.logger
 About the options:
 
 * `new_session_path`, is the path with the login form
-* `zimbra_attributes`, extra Zimbra information that will be recorded in the `extra` element of the Omniauth [Auth Hash Schema](https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema)
+* `zimbra_attributes`, extra Zimbra information that will be returned in the `extra` element of the Omniauth [Auth Hash Schema](https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema)
 
 ## Contributing
 
