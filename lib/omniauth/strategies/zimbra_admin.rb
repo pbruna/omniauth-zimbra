@@ -17,7 +17,7 @@ module OmniAuth
       option :uid_field, :email
 
       def request_phase
-        return if options[:new_session_path].nil?
+        redirect callback_url if options[:new_session_path].nil?
         redirect options[:new_session_path]
       end
       
@@ -54,11 +54,11 @@ module OmniAuth
         end
 
         def username
-          request[:sessions]['email']
+          request'email']
         end
 
         def password
-          request[:sessions]['password']
+          request['password']
         end
 
         def authentication_response
