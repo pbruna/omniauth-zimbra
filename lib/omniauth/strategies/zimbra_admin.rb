@@ -54,7 +54,7 @@ module OmniAuth
         end
 
         def username
-          request'email']
+          request['email']
         end
 
         def password
