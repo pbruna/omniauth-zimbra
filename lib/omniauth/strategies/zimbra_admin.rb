@@ -17,6 +17,7 @@ module OmniAuth
       option :uid_field, :email
 
       def request_phase
+        return if options[:new_session_path].nil?
         redirect options[:new_session_path]
       end
       
