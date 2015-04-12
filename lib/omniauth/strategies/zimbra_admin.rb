@@ -13,12 +13,14 @@ module OmniAuth
       option :fields, [:name, :email]
       option :zimbra_attributes, %w( displayName )
       option :debug, false
-      option :new_session_path, "/sessions/new"
+      option :model, nil
       option :uid_field, :email
 
       def request_phase
-        redirect callback_url if options[:new_session_path].nil?
-        redirect options[:new_session_path]
+        OmniAuth::Form.build(:title => options.title, :url => callback_path) do
+          text_field 'Email', 'email'
+          password_field 'Password', 'password'
+        end.to_response
       end
       
       def callback_phase
@@ -54,11 +56,13 @@ module OmniAuth
         end
 
         def username
-          request['email']
+          return request['email'] if options[:model].nil?
+          request[options[:model]]['email']
         end
 
         def password
-          request['password']
+          request['password'] if options[:model].nil?
+          request[options[:model]]['password']
         end
 
         def authentication_response

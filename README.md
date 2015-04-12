@@ -38,8 +38,8 @@ Example for Rails with complete options:
 endpoint = "https://mail.example.com:9071/service/admin/soap"
 
 Rails.application.config.middleware.use OmniAuth::Builder do  
-  provider :zimbraadmin, :endpoint => endpoint, :debug => true, :new_session_path => "/sessions/new",
-  :zimbra_attributes => ["zimbraId", "mail", "displayName", "zimbraMailAlias"]
+  provider :zimbraadmin, :endpoint => endpoint, :debug => true, :model => :user,
+  :zimbra_attributes => ["zimbraId", "mail", "displayName", "zimbraMailAlias"], :form => SessionsController.action(:new)
 end
 
 OmniAuth.config.logger = Rails.logger
@@ -47,8 +47,31 @@ OmniAuth.config.logger = Rails.logger
 
 About the options:
 
-* `new_session_path`, is the path with the login form
-* `zimbra_attributes`, extra Zimbra information that will be returned in the `extra` element of the Omniauth [Auth Hash Schema](https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema)
+* `:model`, in case you have a nested hash, this is the hash where the user information is stored.
+* `:zimbra_attributes`, extra Zimbra information that will be returned in the `extra` element of the Omniauth [Auth Hash Schema](https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema)
+* `:form`, look here [https://github.com/intridea/omniauth/wiki/Dynamic-Providers](https://github.com/intridea/omniauth/wiki/Dynamic-Providers)
+
+## Usage with Devise
+
+If you want to use [Devise](https://github.com/plataformatec/devise), you have to follow this guide: [OmniAuth: Overview](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview):
+
+Configure your `devise.rb` initializer like:
+
+```ruby
+config.omniauth :zimbraadmin, :endpoint => "https://mail.example.com:9071/service/admin/soap",
+  :form =>  SessionsController.action(:new), :model => :session
+```
+
+`:form =>  SessionsController.action(:new)` setup Devise to use your form, that following the example should be the file `/views/sessions/new.html.erb` with this content:
+
+```html
+<%= simple_form_for :session, :url => "/users/auth/zimbraadmin/callback", wrapper: :vertical_form do |f| %>
+ <%= f.input :email, label_html: { class: 'col-sm-3' } %>
+ <%= f.input :password,  label_html: { class: 'col-sm-4' } %>
+ <%= f.button :submit, "Ingresar", class: "btn btn-success btn-block" %>
+<% end %>
+```
+
 
 ## Contributing
 
