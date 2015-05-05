@@ -36,7 +36,10 @@ module OmniAuth
       end
       
       credentials do 
-        {  :token => @authentication_response[:token] } 
+        { :token => @authentication_response[:token],
+          expires: true,
+          expires_at: @authentication_response[:session_lifetime].to_i
+         } 
       end
       
       extra do 
@@ -78,10 +81,10 @@ module OmniAuth
           Zimbra.debug = debug
           Zimbra.admin_api_url = endpoint
           begin
-            token = Zimbra.reset_login(username, password)
+            token, session_lifetime = Zimbra.reset_login(username, password)
             account = Zimbra::Account.find_by_name username
             account_attrs = account.get_attributes options[:zimbra_attributes]
-            {token: token, account: account, account_attrs: account_attrs}
+            {token: token, session_lifetime: session_lifetime, account: account, account_attrs: account_attrs}
           rescue Exception => e
             false 
           end
