@@ -22,30 +22,30 @@ module OmniAuth
           password_field 'Password', 'password'
         end.to_response
       end
-      
+
       def callback_phase
         return fail!(:invalid_credentials) unless authentication_response
         super
       end
 
       uid { username }
-      
-      info do { 
+
+      info do {
         name: @authentication_response[:account_attrs]["displayName"]
-        } 
+        }
       end
-      
-      credentials do 
+
+      credentials do
         { :token => @authentication_response[:token],
           expires: true,
           expires_at: @authentication_response[:session_lifetime].to_i
-         } 
+         }
       end
-      
-      extra do 
+
+      extra do
         @authentication_response[:account_attrs]
       end
-      
+
       protected
 
         # by default we use static uri. If dynamic uri is required, override
@@ -76,17 +76,17 @@ module OmniAuth
           end
           @authentication_response
         end
-        
+
         def login_and_data(username, password)
           Zimbra.debug = debug
           Zimbra.admin_api_url = endpoint
           begin
             token, session_lifetime = Zimbra.reset_login(username, password)
             account = Zimbra::Account.find_by_name username
-            account_attrs = account.get_attributes options[:zimbra_attributes]
+            account_attrs = account.zimbra_attrs
             {token: token, session_lifetime: session_lifetime, account: account, account_attrs: account_attrs}
           rescue Exception => e
-            false 
+            false
           end
         end
 
