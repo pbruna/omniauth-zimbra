@@ -1,5 +1,5 @@
 module Omniauth
   module ZimbraAdmin
-    VERSION = "0.0.3.28"
+    VERSION = "0.0.4"
   end
 end
